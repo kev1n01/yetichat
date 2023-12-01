@@ -1,0 +1,15 @@
+*.db
+
+*.py[cod]
+
+.web
+
+__pycache__/
+
+assets
+
+env
+
+rxconfig.py
+
+chat_openai
