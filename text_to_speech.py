@@ -1,19 +1,20 @@
 from gtts import gTTS
 import pyttsx3
-import uuid, playsound, os
+import uuid, playsound, os  
 
-def tts(text, language):
-    tts = gTTS(text=text, lang=language, slow=False, lang_check=False, tld='com.mx')
+def tts(text):
+    tts = gTTS(text=text, lang='es', slow=False, lang_check=False, tld='es')
     filename=f'{str(uuid.uuid4())}.mp3'
     tts.save(filename)
     playsound.playsound(filename)
     print('audio created')
     os.remove(filename)
 
-def pytts(text):
-    engine = pyttsx3.init()
-    engine.say(text)
+def pytts(text, volume: float = 1.0, rate: int = 150):
+    engine = pyttsx3.init() 
+    engine.setProperty('volume',volume)
     voices = engine.getProperty('voices') 
     engine.setProperty('voice', voices[0].id)
-    engine.setProperty('rate', 125)
+    engine.setProperty('rate', rate)
+    engine.say(text)
     engine.runAndWait()
