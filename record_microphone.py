@@ -38,13 +38,15 @@ def micToWeb():
     r, mic = sr.Recognizer(), sr.Microphone()
     with mic as source:
         print("Escuchando para web...")
-        r.adjust_for_ambient_noise(source)
-        audio = r.listen(source)
-        text = r.recognize_google(audio, language='es-ES')
-        print("msg to web: ", text, end="\r\n")
-        if text != "":
-            print("user task 2: ", text, end="\r\n")
-            return text
-        else:
+        try:
+            r.adjust_for_ambient_noise(source)
+            audio = r.listen(source)
+            text = r.recognize_google(audio, language='es-ES')
+            # if text != "":
+            #     print("msg to web: ", text, end="\r\n")
+            #     return text
+            # else:
+            #     micToWeb()
+            #     return ""
+        except:
             micToWeb()
-            return ""

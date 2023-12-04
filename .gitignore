@@ -6,14 +6,15 @@
 
 __pycache__/
 
+
 assets
 
 .env
 
 env
 
-rxconfig.py
+# rxconfig.py
 
-chat_openai
+# chat_openai
 
 PyWhatkit_DB.txt

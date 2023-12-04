@@ -9,7 +9,7 @@ from  dotenv import load_dotenv
 #load the environment variables
 load_dotenv()
 #set the openai api key
-openai.api_key = os.environ('API_KEY') 
+openai.api_key = os.getenv('API_KEY') 
 
 #declare the queue for the transcript of the microphone input and the default text chat message
 transcript_queue = Queue()
@@ -48,12 +48,14 @@ def start_conversation():
         if not task_mode:
             record_microphone()
             transcript_result = transcript_queue.get()
+
         #condition to active Yeti
         if not sleep and not active and transcript_result == "yeti":
             active = True #set the flag to active
             pytts(text_chat_default) #say the text chat message default
             print("AI: ", text_chat_default, end="\r\n")
             continue
+
         #condition to active task mode
         if not task_mode and transcript_result == "modo tarea":
             pytts(text_chat_mode_task) #say the text mode task message
@@ -102,15 +104,15 @@ def start_conversation():
         if not task_mode and not sleep and active and transcript_result != "":
             #call the openai api to get the answer
             response = openai.ChatCompletion.create(
-                model = 'gpt-3.5-turbo',
+                model = os.getenv('MODEL'),
                 messages = [
                     {
-                        'role': 'system',
-                        'content': os.environ('CONTENT_SYSTEM') #set the content of the system 
+                        "role": "system",
+                        'content': os.getenv('CONTENT_SYSTEM') #set the content of the system 
                     },
                     {
-                        'role': 'user',
-                        'content': transcript_result #set the question of the user
+                        "role": "user",
+                        "content": transcript_result #set the question of the user
                     }
                 ],
             )
