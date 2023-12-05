@@ -12,7 +12,7 @@ def exec_task():
         if(task_queue_result == "salir" or task_queue_result == "Salir"):
             return 'Exit'
         
-        if(task_queue_result == 'busca google'):
+        if(task_queue_result == 'busca en google'):
             sub_task = listenSubTask('Que quieres buscar?')
             pywhatkit.search(sub_task)
             return 'Done'

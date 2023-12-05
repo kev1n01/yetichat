@@ -13,12 +13,6 @@ openai.api_key = os.getenv('API_KEY')
 
 #declare the queue for the transcript of the microphone input and the default text chat message
 transcript_queue = Queue()
-#declare text answer default 
-text_chat_default = "Hola mi rey hermoso, ¿En qué puedo ayudarte?"
-text_chat_after_sleep = "Hola de nuevo mi príncipe"
-text_chat_before_sleep = "Adiós, mi rey te quiero mucho, regresa rápido por favor"
-text_chat_mode_task = "Modo tarea activado, pide lo que quieras rey" 
-text_chat_not_mode_task = "Modo tarea desactivado" 
 
 #function to record the microphone input
 #and put the transcript in the queue
@@ -52,13 +46,13 @@ def start_conversation():
         #condition to active Yeti
         if not sleep and not active and transcript_result == "yeti":
             active = True #set the flag to active
-            pytts(text_chat_default) #say the text chat message default
-            print("AI: ", text_chat_default, end="\r\n")
+            pytts(os.getenv('text_chat_default')) #say the text chat message default
+            print("AI: ", os.getenv('text_chat_default'), end="\r\n")
             continue
 
         #condition to active task mode
         if not task_mode and transcript_result == "modo tarea":
-            pytts(text_chat_mode_task) #say the text mode task message
+            pytts(os.getenv('text_chat_mode_task')) #say the text mode task message
             task_mode = True #set the flag to active task mode
             continue
 
@@ -69,7 +63,7 @@ def start_conversation():
             if task == 'Done':
                 pytts('Tarea completada')
             if task == 'Exit':
-                pytts(text_chat_not_mode_task) #say the text not mode task message
+                pytts(os.getenv('text_chat_not_mode_task')) #say the text not mode task message
                 task_mode = False
             continue
         
@@ -82,21 +76,21 @@ def start_conversation():
         #condition to say the Yeti talk normal
         if transcript_result == "yeti no entiendo" or transcript_result == "no entiendo":
             #set increment the volume and rate of the voice Yeti
-            pytts("¿Y ahora si me entiendes mejor?", 1.5, 140)
+            pytts("¿Y ahora si me entiendes mejor?", 1.0, 140)
             continue
 
         #condition to reactivate the Yeti
         if sleep and transcript_result == "yeti":
             active = True
             sleep = False
-            pytts(text_chat_after_sleep)
-            print("\nAI: ", text_chat_after_sleep, end="\r\n")
+            pytts(os.getenv('text_chat_after_sleep'))
+            print("\nAI: ", os.getenv('text_chat_after_sleep'), end="\r\n")
             continue
 
         #condition to sleep the Yeti 
         if active and transcript_result == "yeti adios" or transcript_result == 'yeti adiós' or transcript_result == "yeti apagate" or transcript_result == "yeti apágate":
-            pytts(text_chat_before_sleep)
-            print("\nAI: ", text_chat_before_sleep, end="\r\n")
+            pytts(os.getenv('text_chat_before_sleep'))
+            print("\nAI: ", os.getenv('text_chat_before_sleep'), end="\r\n")
             active = False
             sleep = True
             continue
